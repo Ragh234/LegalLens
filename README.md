@@ -1,8 +1,14 @@
 # LegalLens
 
+[![CI](https://github.com/Ragh234/LegalLens/actions/workflows/ci.yml/badge.svg)](https://github.com/Ragh234/LegalLens/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 LegalLens is an educational, production-style Retrieval-Augmented Generation project for legal contract intelligence. It demonstrates how a modern RAG system parses contracts, chunks them with metadata, embeds them, stores vectors in Qdrant, retrieves relevant evidence, builds a grounded prompt, calls Gemini, and returns cited answers.
 
 It intentionally stays focused on RAG. There is no authentication, user database, billing, async worker system, or cloud platform layer.
+
+> **Repo layout note:** the actual project lives in the [`LegalLens/`](LegalLens/) subfolder — this file is at the repo root, one level above it. Every command below starts with `cd LegalLens` for that reason.
 
 ## Architecture Diagram
 
@@ -42,6 +48,14 @@ Upload Contract
   -> Display citations and similarity scores
 ```
 
+## Demo
+
+_Screenshots go here — the Streamlit UI has three views worth capturing:
+the upload + retrieval inspector, the prompt viewer (system prompt /
+context / question split), and a generated answer with citations. Add
+them to `LegalLens/docs/images/` and reference them here, e.g.
+`![Retrieval inspector](LegalLens/docs/images/retrieval-inspector.png)`._
+
 ## Folder Explanation
 
 ```text
@@ -59,6 +73,8 @@ config/                Runtime settings loaded from environment variables
 tests/                 Lightweight unit tests for RAG components
 app.py                 Streamlit educational interface
 ```
+
+(All paths above are relative to the `LegalLens/` subfolder, not the repo root.)
 
 ## Chunking Strategy
 
@@ -133,9 +149,10 @@ This makes the grounding step transparent for learning and interviews.
 
 ## Configuration
 
-Copy `.env.example` to `.env`:
+From the `LegalLens/` subfolder, copy `.env.example` to `.env`:
 
 ```bash
+cd LegalLens
 cp .env.example .env
 ```
 
@@ -161,6 +178,7 @@ Important settings:
 ## Run With Docker
 
 ```bash
+cd LegalLens
 docker compose up --build
 ```
 
@@ -181,6 +199,7 @@ docker run -p 6333:6333 -p 6334:6334 qdrant/qdrant:v1.9.7
 Install dependencies:
 
 ```bash
+cd LegalLens
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
@@ -195,10 +214,11 @@ streamlit run app.py
 ## Tests
 
 ```bash
+cd LegalLens
 pytest
 ```
 
-The tests are intentionally lightweight and cover upload validation, prompt building, chunking metadata, retrieval behavior, empty retrieval, and Gemini failure handling.
+The tests are intentionally lightweight and cover upload validation, prompt building, chunking metadata, retrieval behavior, empty retrieval, and Gemini failure handling. All 9 run against fakes/mocks — no live Qdrant instance or Gemini API key required.
 
 ## Future Improvements
 
